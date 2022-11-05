@@ -3,3 +3,5 @@
 ## This repository includes code and saved models for replicating the above mentioned study.
 
 Project Active
+
+For more information, please e-mail Meghna Chaudhary at meghna1@usf.edu.
