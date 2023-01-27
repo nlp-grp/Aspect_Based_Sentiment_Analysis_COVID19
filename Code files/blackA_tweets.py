@@ -2,7 +2,7 @@ import gzip
 import glob
 import json
 
-path='/Users/Meghna/Desktop/Filtered_BlackA_Tweets/*.json.gz'
+path = path of file
 
 files=glob.glob(path)
 len_f=0

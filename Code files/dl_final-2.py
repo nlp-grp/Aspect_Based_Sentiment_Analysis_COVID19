@@ -1,23 +1,15 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import pandas as pd
 import numpy as np
 import os
 import tensorflow as tf
 import cv2
 import pathlib
-#from tensorflow import keras
 from tensorflow.keras import layers, models
-#from tensorflow.keras.regularizers import l2
 
 
 IMG_WIDTH=150
 IMG_HEIGHT=150
-img_folder=r'/home/m/meghna1/train_data/'
+img_folder=r'train_data_folder'
 label_mapping_fair_face={0:['White'],1:['Black'],2:['Southeast Asian','East Asian'],3:['Indian'],4:['Latino_Hispanic','Middle Eastern'],5:['Cartoon','Cat','Dog']}
 
 def create_dataset(img_folder):
@@ -25,7 +17,7 @@ def create_dataset(img_folder):
     img_data_array=[]
     class_name=[]
     labels={}
-    with open('/home/m/meghna1/fairface_label_train.csv','r') as label_file:
+    with open('fairface_train_data_path','r') as label_file:
         for line in label_file:
             lines=line.split(',')
             if lines[0]!='file':
@@ -33,22 +25,8 @@ def create_dataset(img_folder):
                 labels[file_no]=lines[3]
     for dir1 in os.listdir(img_folder):
         try:
-#             if dir1=='cartoon':
-#                 image_root = pathlib.Path(os.path.join(img_folder, dir1))
-#                 list_ds = tf.data.Dataset.list_files(str(image_root/'*.png'))
-#                 for f in list_ds:
-#                     image = tf.io.read_file(f)
-#                     image = tf.io.decode_png(image)
-#                     class_name.append(5)
-#                     image=np.asarray(image)
-#                     image = image.astype('float32')
-#                     image /= 255
-#                     image=cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_AREA)
-#                     img_data_array.append(image)
-#             else:
             for file in os.listdir(os.path.join(img_folder, dir1)):
                 file_count+=1
-    #            print(file_count)
                 image_path= os.path.join(img_folder, dir1,  file)
                 image= cv2.imread( image_path, cv2.COLOR_BGR2RGB)
                 image=np.array(image)
@@ -78,33 +56,13 @@ def create_dataset(img_folder):
             continue
     return img_data_array, class_name
 
-
-# In[2]:
-
-
 train_data,train_labels =create_dataset(img_folder)
-
-
-# In[ ]:
-
 
 train_data=np.asarray(train_data)
 
-
-# In[ ]:
-
-
 train_labels=np.asarray(train_labels).reshape(len(train_labels),1)
 
-
-# In[ ]:
-
-
 train_data = train_data.reshape(train_data.shape[0], 150, 150, 3)
-
-
-# In[ ]:
-
 
 train_labels=tf.keras.utils.to_categorical(
     train_labels, num_classes=8, dtype='float32'
@@ -112,8 +70,6 @@ train_labels=tf.keras.utils.to_categorical(
 
 from sklearn.model_selection import train_test_split
 x_train, x_validate,y_train,y_validate = train_test_split(train_data,train_labels,stratify=train_labels,test_size=0.25)
-
-# In[ ]:
 
 
 model = models.Sequential()
@@ -146,10 +102,6 @@ model.add(layers.Dropout(0.5))
 model.add(layers.Dense(512, activation='relu',kernel_regularizer=tf.keras.regularizers.l2(0.0001)))
 model.add(layers.Dense(8,activation='softmax'))
 
-
-# In[ ]:
-
-
 opt=tf.keras.optimizers.Adam(learning_rate=0.0001)
 
 model.compile(optimizer=opt,
@@ -157,13 +109,6 @@ model.compile(optimizer=opt,
               metrics=['accuracy'])
 
 history = model.fit(train_data,train_labels, batch_size=16,epochs=75,validation_data=(x_validate,y_validate))
-
-
-# In[ ]:
-
-
-#model.save('/home/meghna1')
-
 
 acc = history.history['accuracy']
 val_acc = history.history['val_accuracy']

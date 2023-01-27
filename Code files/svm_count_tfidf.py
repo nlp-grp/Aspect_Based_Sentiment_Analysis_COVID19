@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[8]:
-
-
 import pandas as pd
 import re
 import string
@@ -15,10 +9,7 @@ import gzip
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import TweetTokenizer
-#nltk.download('stopwords')
-#nltk.download('punkt')
 from nltk.util import ngrams
-#from google.colab import drive
 from scipy.sparse import hstack
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.model_selection import train_test_split
@@ -31,11 +22,7 @@ from scipy import sparse
 import os
 import pickle
 
-
-# In[13]:
-
-
-covid_files_path = r'/data/meghna1/covid_data/covid_tweets.json'
+covid_files_path = covid_data_tweets
 
 covid_train_data = []
 noncovid_train_data = []
@@ -52,7 +39,7 @@ try:
 except:
     print("Faulty file ")
             
-noncovid_files_path = r'/data/meghna1/noncovid_data/*'
+noncovid_files_path = r'noncovid_data_path'
 noncovid_files = glob.glob(noncovid_files_path)
 num_noncovid_tweets = 0
 
@@ -71,34 +58,19 @@ for i in range(len(noncovid_files)):
         print("Faulty file ", noncovid_files[i])
 
 
-# In[14]:
-
-
 print(len(covid_train_labels))
 print(len(noncovid_train_labels))
-
-
-# In[15]:
 
 
 train_data = covid_train_data + noncovid_train_data
 train_labels = covid_train_labels + noncovid_train_labels
 
 
-# In[17]:
-
-
 train_corpus,test_corpus,train_labels,test_labels = train_test_split(train_data,train_labels,stratify=train_labels,test_size=0.25)
-
-
-# In[9]:
 
 
 vectorizer = 'tfidf'   # set 'count' or 'tfidf'
 analyzer = 'word'  # set 'word' or 'both' ( word and char)
-
-
-# In[10]:
 
 
 if vectorizer == 'count':
@@ -115,13 +87,6 @@ else:
         char_vectorizer = TfidfVectorizer(analyzer='char',ngram_range=(2,5))
         
         
-        
-        
-
-
-# In[11]:
-
-
 def get_training_data_and_labels(train_corpus, train_labels):    
     if analyzer == 'word':
         ngram_vectorized_data = vectorizer.fit_transform(train_corpus)
@@ -134,9 +99,6 @@ def get_training_data_and_labels(train_corpus, train_labels):
         train_vectorized_data = sparse.csr_matrix(l)
         
         return train_vectorized_data, train_labels 
-
-
-# In[12]:
 
 
 def get_test_data_and_labels(test_corpus, test_labels):   
@@ -152,19 +114,9 @@ def get_test_data_and_labels(test_corpus, test_labels):
         
         return test_vectorized_data,test_labels
     
-    
-    
-    
-
-
-# In[13]:
-
 
 X_train, y_train =  get_training_data_and_labels(train_corpus, train_labels)
 X_test, y_test = get_test_data_and_labels(test_corpus, test_labels)
-
-
-# In[ ]:
 
 
 # Set the parameters by cross-validation
@@ -204,15 +156,10 @@ for score in scores:
     print(classification_report(y_true, y_pred))
     print()
 
-
-# In[ ]:
-
-
-file_path = '/data/meghna1/svm_covid_noncovid_unibitrigrams'
+file_path = output_file_path
 pickle.dump(clf, open(file_path, 'wb'))
 
 
-# In[273]:
 
 
 

@@ -12,7 +12,7 @@ import matplotlib.image as mpimg
 
 IMG_WIDTH=200
 IMG_HEIGHT=200
-img_folder=r'/Users/Meghna/Desktop/train_data/'
+img_folder=r'training_data_path'
 label_mapping_fair_face={0:'White',1:'Black',2:'Southeast Asian, East Asian',3:'Indian',4:'Latino_Hispanic, Middle Eastern'}
 def create_dataset(img_folder):
 
@@ -26,32 +26,24 @@ def create_dataset(img_folder):
             for file in os.listdir(os.path.join(img_folder, dir1)):
                 image_path= os.path.join(img_folder, dir1,  file)
                 image= cv2.imread( image_path, cv2.COLOR_BGR2RGB)
-                #image=cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_AREA)
-                # image=np.array(image)
-                # image = image.astype('float32')
-                # image /= 255
-                # img_data_array.append(image)
                 if dir1=='UTKFace' or dir1=='crop_part1':
                     race=file.split('_')[2]
                     class_name.append(race)
                 else:
                     file_num=file.split('.')[0]
-                    with open('/Users/Meghna/Desktop/fairface_label_train.csv','r') as label_file:
+                    with open('path_to_fairface_train_data','r') as label_file:
                         for line in label_file:
                             lines=line.split(',')
                             if lines[0]!='file' and lines[0].split('/')[1].split('.')[0]==file_num:
                                 for k,v in label_mapping_fair_face.items():
                                     if label_mapping_fair_face[k]==lines[3]:
                                         class_name.append(lines[3])
-                                        #print(k," ", v, " ", lines[3])
+
 
     return img_data_array, class_name
 
 img_data, class_name =create_dataset(img_folder)
 
-#target_dict={k: v for v, k in enumerate(np.unique(class_name))}
-
-#target_val=  [target_dict[class_name[i]] for i in range(len(class_name))]
 
 model=tf.keras.Sequential(
         [

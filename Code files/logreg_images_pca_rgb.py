@@ -4,7 +4,6 @@ import os
 import tensorflow as tf
 import cv2
 import pathlib
-#from tensorflow import keras
 from tensorflow.keras import layers, models
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
@@ -21,7 +20,7 @@ import numpy as np
 
 IMG_WIDTH=150
 IMG_HEIGHT=150
-img_folder=r'/data/parush/train_data/'
+img_folder = train_data_path
 label_mapping_fair_face={0:['White','Southeast Asian','Indian','Latino_Hispanic','Middle Eastern','East Asian'],1:['Black']}
 
 def create_dataset(img_folder):
@@ -42,7 +41,7 @@ def create_dataset(img_folder):
     count = 0
     
     # getting image labels from imag elabel file
-    with open('/data/parush/fairface_label_train.csv','r') as label_file:
+    with open(fairface_train_data_path,'r') as label_file:
         for line in label_file:
             lines=line.split(',')
             if lines[0]!='file':
@@ -64,7 +63,6 @@ def create_dataset(img_folder):
                             image= cv2.imread( image_path, cv2.COLOR_BGR2RGB)
                             image=np.array(image)
                             image = image.astype('float32')
-                            #image /= 255 
                             image=cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_AREA)
                             img_data_array.append(image)
                         elif labels[file_num] == 'White' and count_white <2039 and count<12233:
@@ -74,7 +72,6 @@ def create_dataset(img_folder):
                             image= cv2.imread( image_path, cv2.COLOR_BGR2RGB)
                             image=np.array(image)
                             image = image.astype('float32')
-                            #image /= 255 
                             image=cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_AREA)
                             img_data_array.append(image)
                         elif labels[file_num] == 'Southeast Asian' and count_sa <2039 and count<12233:
@@ -84,7 +81,6 @@ def create_dataset(img_folder):
                             image= cv2.imread( image_path, cv2.COLOR_BGR2RGB)
                             image=np.array(image)
                             image = image.astype('float32')
-                            #image /= 255 
                             image=cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_AREA)
                             img_data_array.append(image)
                         elif labels[file_num] == 'Indian' and count_ind <2039 and count<12233:
@@ -94,7 +90,6 @@ def create_dataset(img_folder):
                             image= cv2.imread( image_path, cv2.COLOR_BGR2RGB)
                             image=np.array(image)
                             image = image.astype('float32')
-                            #image /= 255 
                             image=cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_AREA)
                             img_data_array.append(image)
                         elif labels[file_num] == 'Latino_Hispanic' and count_lat <2039 and count<6000:
@@ -104,7 +99,6 @@ def create_dataset(img_folder):
                             image= cv2.imread( image_path, cv2.COLOR_BGR2RGB)
                             image=np.array(image)
                             image = image.astype('float32')
-                            #image /= 255 
                             image=cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_AREA)
                             img_data_array.append(image)
                         elif labels[file_num] == 'Middle Eastern' and count_mid <2039 and count<12233:
@@ -114,7 +108,6 @@ def create_dataset(img_folder):
                             image= cv2.imread( image_path, cv2.COLOR_BGR2RGB)
                             image=np.array(image)
                             image = image.astype('float32')
-                            #image /= 255 
                             image=cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_AREA)
                             img_data_array.append(image)
                         elif labels[file_num] == 'East Asian' and count_ea <203 and count<12233:
@@ -124,7 +117,6 @@ def create_dataset(img_folder):
                             image= cv2.imread( image_path, cv2.COLOR_BGR2RGB)
                             image=np.array(image)
                             image = image.astype('float32')
-                            #image /= 255 
                             image=cv2.resize(image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_AREA)
                             img_data_array.append(image)
     return img_data_array, class_name
@@ -141,9 +133,6 @@ train_data = train_data.reshape(train_data.shape[0], 150, 150, 3)
 bluec = []
 greenc = []
 redc = []
-#     blue.append(b)
-#     green.append(g)
-#     red.append(r)
 new_x_train = []
 
 for i in range(len(train_data)):
@@ -187,6 +176,6 @@ y_pred = clf.predict(x_validate)
 print(classification_report(y_validate, y_pred))
 
 
-file_path = '/data/parush/logreg_images_rgb'
+file_path = output_path
 pickle.dump(clf, open(file_path, 'wb'))
     

@@ -4,7 +4,7 @@ import json
 import emoji
 import re
 
-path='/Users/Meghna/Desktop/Twitter_Covid_Data/*.json.gz'
+path = path of file
 files=glob.glob(path)
 
 users = set()

@@ -2,7 +2,7 @@ import gzip
 import glob
 import json
 
-path='/Users/Meghna/Desktop/Filtered_BlackA_Tweets/*.json.gz'
+path = path_to_filtered_tweets_posted_by_african_american
 
 key = ""
 endpoint = "https://textanalyticsresouce.cognitiveservices.azure.com/"
@@ -23,10 +23,6 @@ client = authenticate_client()
 
 def sentiment_analysis_with_opinion_mining_example(client):
 
-#    documents = [
-#        "The food and service were unacceptable, but the concierge were nice"
-#    ]
-
     for i in range(len(files)):
         print("opening file", files[i])
         file_name=files[i].split("/")[-1]
@@ -37,7 +33,7 @@ def sentiment_analysis_with_opinion_mining_example(client):
                     tweet_text=[tweet['text']]
                     tweet_date='_'.join(tweet['created_at'].split()[1:3])
                     tweet_id=tweet['id']
-                    file_is='/Users/Meghna/Desktop/Tweets_Opinion_Mining/'+tweet_date+'.json.gz'
+                    file_is='path'+tweet_date+'.json.gz'
 
                     result = client.analyze_sentiment(tweet_text, show_opinion_mining=True)
                     doc_result = [doc for doc in result if not doc.is_error]

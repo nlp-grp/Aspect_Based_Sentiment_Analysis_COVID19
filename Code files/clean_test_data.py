@@ -10,7 +10,7 @@ count_correct=0
 users = set()
 working_images = {}
 
-with open('/Users/Meghna/Desktop/modified_urls.json', 'rb') as u, open('/Users/Meghna/Desktop/twitter_test_images.json', 'a') as u1:
+with open(url_file_path, 'rb') as u, open(twitter_test_images_path, 'a') as u1:
     for line in u:
         data = json.loads(line)
         try:

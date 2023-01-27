@@ -2,7 +2,7 @@ import gzip
 import glob
 import json
 
-path='/Users/Meghna/Desktop/Twitter_Covid_Data/*.json.gz'
+path = twitter_covid_data_path
 
 files=glob.glob(path)
 hashtags=set()
@@ -147,7 +147,7 @@ for i in range(len(files)):
                     for hashtag in hashtag_list:
                         got_hashtag=hashtag['text'].lower()
                         if ((got_hashtag in black_hashtags) and (got_hashtag not in filter_hashtags)):
-                            file_is='/Users/Meghna/Desktop/Filtered_BlackA_Tweets/'+file_name
+                            file_is = 'path_to_filtered_tweets_by_africanamericans' + file_name
                             with gzip.open(file_is,'ab') as fout:
                                 fout.write(json.dumps(tweet).encode('utf-8')+b"\n")
         print(f"Written for file {files[i]}")

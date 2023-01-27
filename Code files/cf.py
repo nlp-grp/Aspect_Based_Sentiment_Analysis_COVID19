@@ -1,4 +1,4 @@
-img_folder=r'/Users/Meghna/Desktop/check/'
+img_folder = path
 import os
 import cv2
 import numpy as np
@@ -18,7 +18,7 @@ for dir1 in os.listdir(img_folder):
             img_data_array.append(image)
             file_num=file.split('.')[0]
 
-            with open('/Users/Meghna/Desktop/fairface_label_train.csv','r') as label_file:
+            with open(path2,'r') as label_file:
                     for line in label_file:
                         lines=line.split(',')
                         if lines[0]!='file' and lines[0].split('/')[1].split('.')[0]==file_num:

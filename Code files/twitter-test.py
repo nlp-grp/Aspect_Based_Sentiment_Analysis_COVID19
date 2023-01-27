@@ -2,7 +2,7 @@ import gzip
 import glob
 import json
 
-path='/Users/meghnachaudhary/Desktop/Twitter_Covid_Data/*.json.gz'
+path = twiiter_covid_data_path
 
 files=glob.glob(path)
 hashtags=set()
@@ -27,5 +27,5 @@ for i in range(len(files)):
 
 hashtags=list(hashtags)
 
-with open('/Users/meghnachaudhary/Desktop/twitter_hashtags.json','w') as f:
+with open(hashtag_output_path,'w') as f:
 	json.dump(hahstags,f,indent=4)	
