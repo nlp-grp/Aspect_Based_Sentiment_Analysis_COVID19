@@ -35,15 +35,9 @@ with open('path1','rb') as f, open('path2', 'a') as u : #path1 to read from and 
         c = c + 1
 
         try:
-            # URL of one or more celebrities
-            #remote_image_url_celebs = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/faces.jpg"
-            # Call API with content type (celebrities) and URL
             detect_domain_results_celebs_remote = computervision_client.analyze_image_by_domain("celebrities", remote_image_url_celebs)
 
-            # Print detection results with name
-            #print("Celebrities in the remote image:")
             if len(detect_domain_results_celebs_remote.result["celebrities"]) == 0:
-                #print("No celebrities detected.")
                 continue
             else:
                 for celeb in detect_domain_results_celebs_remote.result["celebrities"]:

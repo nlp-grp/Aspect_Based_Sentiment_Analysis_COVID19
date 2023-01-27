@@ -44,7 +44,6 @@ def save_data(item):
         return
     if count == records_per_file:
         print("------------Done file------------- ",file_name)
-        # file_object.close()
         count = 1
         print("TN ",count, "in file ",file_name)
         file_name = int(datetime.utcnow().timestamp() * 1e3)
@@ -74,12 +73,6 @@ def stream_connect(partition):
                     save_data(data)
             except:
                 continue
-            # save_data(data)
-            # try:
-            #     if data['lang']=='en':
-            #         save_data(data)
-            # except:
-            #     continue
 
 
 

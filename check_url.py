@@ -20,7 +20,6 @@ with open('path1','rb') as f, open('path2','a') as f1: #path1 read from list of 
     for line in f:
         line = json.loads(line)
         url = str(line['image_url'])
-		#print(sendRequest(url))
         if sendRequest(url)!=False:
             json.dump(line,f1)
             f1.write('\n')

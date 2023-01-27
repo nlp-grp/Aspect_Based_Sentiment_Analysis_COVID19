@@ -1,6 +1,4 @@
 import requests
-# If you are using a Jupyter Notebook, uncomment the following line.
-# %matplotlib inline
 import matplotlib.pyplot as plt
 import json
 import os
@@ -30,7 +28,7 @@ if 'COMPUTER_VISION_ENDPOINT' in os.environ:
 analyze_url = endpoint + "vision/v3.1/analyze"
 
 
-with open('path1','rb') as f, open('/Users/Meghna/Desktop/test_data_potraits.json', 'a') as u : #path1 contains image URLs and path2 contains image URLs of people's faces as identified with >= 50% confidence.
+with open('path1','rb') as f, open(test_data_potraits_path, 'a') as u : #path1 contains image URLs and path2 contains image URLs of people's faces as identified with >= 50% confidence.
     for line in f:
         line = json.loads(line)
         uid = line['user_id']
