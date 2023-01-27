@@ -20,11 +20,11 @@ Sentence neutral score
 Sentence negative score
 The following fields may be present in the tweet sentence.
 
-Target (aspect towards which the sentiment has been expressed)
+Target Position (list of position of aspects in the original tweet towards which the sentiment has been expressed)
 Target polarity (polarity of the target with values positive, negative, and neutral)
 Positive Target Value (model's confidence in label classification in the range [0.0,1.0] with 0.0 being the lowest and 1.0 being the highest)
 Negative Target Value (model's confidence in label classification)
-Assessment (opinion word)
+Assessment Position (list of position of opinion words related to the identified targets in original tweet)
 Assessment Polarity (polarity of the assessment with values positive, negative, and neutral)
 Positive Assessment Value (model's confidence in label classification)
 Negative Assessment Value (model's confidence in label classification)
